@@ -1,14 +1,20 @@
-.gallery__wrap {
+.card__wrap {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-top:18px;
+    padding-top:25px;
     padding-right:20px;
     padding-left: 20px;
 }
 
 @media screen and (min-width: 282px) and (max-width:768px) {
-    .gallery__wrap {
+    .card__wrap {
+        padding-top: 22px;
+    }
+}
+
+@media screen and (max-width: 281px) {
+    .card__wrap {
         padding-top: 22px;
     }
 }

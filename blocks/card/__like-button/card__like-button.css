@@ -1,4 +1,4 @@
-.gallery__like-button {
+.card__like-button {
     width: 22px;
     height: 19px;
     background-color: transparent;
@@ -8,6 +8,6 @@
     transition:opacity 1s ease;
 }
 
-.gallery__like-button:hover {
+.card__like-button:hover {
     opacity:0.5;
 }

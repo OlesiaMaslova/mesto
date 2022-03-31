@@ -22,3 +22,11 @@
         right: 0;
     }
 }
+
+@media screen and (max-width: 281px) {
+    .popup__close-button {
+        width: 20px;
+        height: 20px;
+        right: 0;
+    }
+}
