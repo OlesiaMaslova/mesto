@@ -7,7 +7,7 @@
     padding: 34px 36px 37px;
     box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.15);
     border-radius: 10px;
-    margin: 161px auto 0;
+    margin: 252px auto 0;
     position: relative;
 }
 
@@ -15,6 +15,7 @@
     .popup__form {
         max-width: 282px;
         padding: 25px 22px 25px;
+        margin-top: 198px;
     }
 }
 
@@ -22,5 +23,6 @@
     .popup__form {
         max-width: 282px;
         padding: 25px 22px 25px;
+        margin-top: 198px;
     }
 } 
