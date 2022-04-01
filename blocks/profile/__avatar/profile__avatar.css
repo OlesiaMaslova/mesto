@@ -4,14 +4,7 @@
     margin-right: 30px;
 }
 
-@media screen and (min-width: 282px) and (max-width:768px) {
-    .profile__avatar { 
-        margin-right: 0;
-        margin-bottom: 22px;
-    }
-}
-
-@media screen and (max-width: 281px) {
+@media screen and (max-width:768px) {
     .profile__avatar { 
         margin-right: 0;
         margin-bottom: 22px;

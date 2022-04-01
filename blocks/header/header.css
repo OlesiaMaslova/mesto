@@ -5,16 +5,9 @@
     margin: 45px auto 0;
 }
 
-@media screen and (min-width: 320px) and (max-width:768px) {
+@media screen and (max-width:768px) {
      .header {
       margin: 28px 0 0;
       padding-bottom: 32px;
     }
-}
-
-@media screen and (max-width: 281px) {
-    .header {
-        margin: 28px 0 0;
-        padding-bottom: 32px;
-      }
 }
