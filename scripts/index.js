@@ -56,7 +56,7 @@ function closeWindow(popup) {
     popup.classList.remove('popup_is-active');
 }
 
-function formSubmitHandler (event) {
+function handleFormUserSubmit (event) {
     event.preventDefault();
 
     nameField.textContent=nameInput.value;
@@ -65,14 +65,9 @@ function formSubmitHandler (event) {
     closeWindow(editWindow);
 }
 
-function formPicSubmitHandler(event) {
+function handleFormPicSubmit(event) {
     event.preventDefault();
     
-    getCard({
-        name: imgNameInput.value,
-        link: imgLinkInput.value, 
-    });
-
     render({
         name: imgNameInput.value,
         link: imgLinkInput.value, 
@@ -84,29 +79,27 @@ function formPicSubmitHandler(event) {
     closeWindow(addWindow);
 }
 
-function picPopupHandler(event) {
+function handlePicPopup(card) {
 
     openWindow(popupPicWindow);
     
-    popupPic.src = event.target.src;
-    popupPicCaption.textContent = event.target.alt;
+    popupPic.src = card.link;
+    popupPicCaption.textContent = card.name;
 }
 
 function getArray() {
-    initialCards.forEach(function(item) {
-        render(item);
-    });
+    initialCards.forEach(render);
 }
 
 
 function render (card) {
-    let element = getCard(card);
+    const element = getCard(card);
     cardContainer.prepend(element);
 }
 
 
 function getCard(card) {
-    newCard = template.content.cloneNode(true);
+    const newCard = template.content.cloneNode(true);
     const imgLink = newCard.querySelector('.card__image');
     const cardName = newCard.querySelector('.card__name');
     const deleteButton = newCard.querySelector('.card__delete-button');
@@ -116,26 +109,26 @@ function getCard(card) {
     imgLink.alt = card.name;
     cardName.textContent = card.name;
 
-    deleteButton.addEventListener('click', cardRemoveHandler);
-    likeButton.addEventListener('click', cardLikeToggleHandler);
-    imgLink.addEventListener('click', picPopupHandler);
+    deleteButton.addEventListener('click', handleCardRemove);
+    likeButton.addEventListener('click', toggleCardLike);
+    imgLink.addEventListener('click', () => handlePicPopup(card));
 
     return newCard;
 }
 
-function cardRemoveHandler(event) {
+function handleCardRemove(event) {
    const element = event.target.closest('.card');
    element.remove();
 }
 
-function cardLikeToggleHandler(event) {
+function toggleCardLike(event) {
     const element = event.target;
     element.classList.toggle('card__like-button_active');
 }
 
 
 
-formUserElement.addEventListener('submit', formSubmitHandler);
+formUserElement.addEventListener('submit', handleFormUserSubmit);
 
 editButton.addEventListener('click', () => {
     openWindow(editWindow);
@@ -159,6 +152,6 @@ closePicWindowButton.addEventListener('click', () => {
     closeWindow(popupPicWindow);
 });
 
-formPicElement.addEventListener('submit', formPicSubmitHandler);
+formPicElement.addEventListener('submit', handleFormPicSubmit);
 
 getArray();
