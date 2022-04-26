@@ -50,11 +50,35 @@ const cardContainer = document.querySelector('.gallery__list');
 
 function openWindow(popup) {
    popup.classList.add('popup_is-active');
+   document.addEventListener('keydown', (event) => handleEscape(event, popup));
 }
 
 function closeWindow(popup) {
     popup.classList.remove('popup_is-active');
+    document.removeEventListener('keydown', (event) => handleEscape(event, popup));
 }
+
+function closeOverleyPopup(popup) {
+    const popupList = Array.from(document.querySelectorAll('.popup'));
+    
+    popupList.forEach((popupItem) => {
+        popupItem.addEventListener('click', (event) => handleOverleyClose(event, popup));
+    });
+}
+
+function handleOverleyClose(event, popup) {
+    if (event.target.classList.contains('popup') || event.target.classList.contains('popup__close-button')) {
+        closeWindow(popup);
+    }
+}
+
+function handleEscape(event, popup) {
+   
+    if(event.key === 'Escape') {
+     closeWindow(popup);
+    }
+}
+
 
 function handleFormUserSubmit (event) {
     event.preventDefault();
@@ -85,6 +109,8 @@ function handlePicPopup(card) {
     
     popupPic.src = card.link;
     popupPicCaption.textContent = card.name;
+    
+    closeOverleyPopup(popupPicWindow);
 }
 
 function getArray() {
@@ -134,6 +160,7 @@ editButton.addEventListener('click', () => {
     openWindow(editWindow);
     nameInput.value = nameField.textContent;
     jobInput.value = subnameField.textContent;
+    closeOverleyPopup(editWindow);
 });
 
 closeWindowButton.addEventListener('click', () => {
@@ -142,6 +169,8 @@ closeWindowButton.addEventListener('click', () => {
 
 addButton.addEventListener('click', () => {
     openWindow(addWindow);
+    closeOverleyPopup(addWindow);
+    
 });
 
 closeAddWindowButton.addEventListener('click', () => {
