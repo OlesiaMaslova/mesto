@@ -25,13 +25,13 @@ const initialCards = [
     }
   ];
 
-const editButton = document.querySelector('.profile__edit-button');
-const editWindow = document.querySelector('.popup_type_edit');
-const addButton = document.querySelector('.profile__add-button');
-const addWindow = document.querySelector('.popup_type_new-card')
-const closeWindowButton = document.querySelector('.popup__close-button');
-const closeAddWindowButton = document.querySelector('.popup__close-button_place_new-card');
-const closePicWindowButton = document.querySelector('.popup__close-button_place_image');
+const buttonEdit = document.querySelector('.profile__edit-button');
+const windowEdit = document.querySelector('.popup_type_edit');
+const buttonAdd = document.querySelector('.profile__add-button');
+const windowAdd = document.querySelector('.popup_type_new-card')
+const windowButtonClose = document.querySelector('.popup__close-button');
+const windowAddButtonClose = document.querySelector('.popup__close-button_place_new-card');
+const picWindowButtonClose = document.querySelector('.popup__close-button_place_image');
 const formUserElement = document.querySelector('.popup__form_userinfo');
 const formPicElement = document.querySelector('.popup__form_picture');
 const popupPicWindow = document.querySelector('.popup_type_image')
@@ -50,32 +50,30 @@ const cardContainer = document.querySelector('.gallery__list');
 
 function openWindow(popup) {
    popup.classList.add('popup_is-active');
-   document.addEventListener('keydown', (event) => handleEscape(event, popup));
+   document.addEventListener('keydown', handleEscape);
 }
 
 function closeWindow(popup) {
     popup.classList.remove('popup_is-active');
-    document.removeEventListener('keydown', (event) => handleEscape(event, popup));
+    document.removeEventListener('keydown', handleEscape);
 }
 
-function closeOverleyPopup(popup) {
+function closeOverleyPopup() {
     const popupList = Array.from(document.querySelectorAll('.popup'));
     
     popupList.forEach((popupItem) => {
-        popupItem.addEventListener('click', (event) => handleOverleyClose(event, popup));
+        popupItem.addEventListener('mousedown', (event) => {
+            if (event.target.classList.contains('popup') || event.target.classList.contains('popup__close-button')) {
+                closeWindow(popupItem);
+            }
+        });
     });
 }
 
-function handleOverleyClose(event, popup) {
-    if (event.target.classList.contains('popup') || event.target.classList.contains('popup__close-button')) {
-        closeWindow(popup);
-    }
-}
-
-function handleEscape(event, popup) {
-   
+function handleEscape(event) {
+   const popupOpened = document.querySelector('.popup_is-active');
     if(event.key === 'Escape') {
-     closeWindow(popup);
+     closeWindow(popupOpened);
     }
 }
 
@@ -86,7 +84,7 @@ function handleFormUserSubmit (event) {
     nameField.textContent=nameInput.value;
     subnameField.textContent=jobInput.value;
 
-    closeWindow(editWindow);
+    closeWindow(windowEdit);
 }
 
 function handleFormPicSubmit(event) {
@@ -97,10 +95,9 @@ function handleFormPicSubmit(event) {
         link: imgLinkInput.value, 
     });
 
+    closeWindow(windowAdd);
+    
     formPicElement.reset();
-
-
-    closeWindow(addWindow);
 }
 
 function handlePicPopup(card) {
@@ -109,8 +106,8 @@ function handlePicPopup(card) {
     
     popupPic.src = card.link;
     popupPicCaption.textContent = card.name;
+    popupPic.alt = card.name;
     
-    closeOverleyPopup(popupPicWindow);
 }
 
 function getArray() {
@@ -156,31 +153,21 @@ function toggleCardLike(event) {
 
 formUserElement.addEventListener('submit', handleFormUserSubmit);
 
-editButton.addEventListener('click', () => {
-    openWindow(editWindow);
+buttonEdit.addEventListener('click', () => {
+   
     nameInput.value = nameField.textContent;
     jobInput.value = subnameField.textContent;
-    closeOverleyPopup(editWindow);
+    openWindow(windowEdit);
+   
 });
 
-closeWindowButton.addEventListener('click', () => {
-    closeWindow(editWindow);
-});
-
-addButton.addEventListener('click', () => {
-    openWindow(addWindow);
-    closeOverleyPopup(addWindow);
+buttonAdd.addEventListener('click', () => {
+    openWindow(windowAdd);
     
 });
 
-closeAddWindowButton.addEventListener('click', () => {
-    closeWindow(addWindow);
-});
-
-closePicWindowButton.addEventListener('click', () => {
-    closeWindow(popupPicWindow);
-});
 
 formPicElement.addEventListener('submit', handleFormPicSubmit);
 
 getArray();
+closeOverleyPopup();
