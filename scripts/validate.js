@@ -21,14 +21,14 @@ function setListenersInput(formElement, config, button) {
     
     inputs.forEach((inputElement) => {
         inputElement.addEventListener('input', (event) => {
-        handleInputValidation(event, config, formElement);
+        handleInputValidation(inputElement, config, formElement);
         toggleSubmitButtonDisabled(formElement, config, button);
         });
     });
 }
 
- function handleInputValidation(event, config, formElement) {
-    const input = event.target;
+ function handleInputValidation(inputElement, config, formElement) {
+    const input = inputElement;
     const errorNode = document.querySelector(`#${input.id}-error`);
 
     if(input.validity.valid) {

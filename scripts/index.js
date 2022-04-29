@@ -71,8 +71,8 @@ function closeOverleyPopup() {
 }
 
 function handleEscape(event) {
-   const popupOpened = document.querySelector('.popup_is-active');
     if(event.key === 'Escape') {
+    const popupOpened = document.querySelector('.popup_is-active')
      closeWindow(popupOpened);
     }
 }
