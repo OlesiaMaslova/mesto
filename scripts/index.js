@@ -1,5 +1,5 @@
-import {Card} from './card.js';
-import {FormValidator} from './formValidator.js';
+import {Card} from './Card.js';
+import {FormValidator} from './FormValidator.js';
 import {initialCards, buttonEdit, windowEdit, buttonAdd, windowAdd, formPicElement, formUserElement, nameField, jobInput, nameInput, subnameField, imgLinkInput, imgNameInput, cardContainer, config, openWindow, closeWindow, handleEscape} from './utils.js';
 
 
@@ -15,11 +15,12 @@ function handleFormUserSubmit (event) {
 function handleFormPicSubmit(event) {
     event.preventDefault();
     
-    render(
+  const element =  render(
         imgNameInput.value,
         imgLinkInput.value, 
         '.template__card')
-    
+        setCard(element);
+
     closeWindow(windowAdd);
     
     formPicElement.reset();
@@ -27,7 +28,8 @@ function handleFormPicSubmit(event) {
 
 function getArray() {
     initialCards.forEach((item) => {
-        render(item.name, item.link, '.template__card');
+       const element = render(item.name, item.link, '.template__card');
+       setCard(element); 
     });
 }
 
@@ -35,6 +37,10 @@ function getArray() {
 function render (name, link, templateSelector) {
     const newItem = new Card(name, link, templateSelector);
     const element = newItem.getCard();
+    return element;
+}
+
+function setCard(element) {
     cardContainer.prepend(element);
 }
 
