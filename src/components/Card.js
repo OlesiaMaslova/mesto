@@ -1,13 +1,13 @@
-import { popupPic, popupPicCaption, popupPicWindow, openWindow} from './utils.js'
 
 export class Card {
     _name;
     _link;
     _template;
     _newCard;
-    constructor(name, link, templateSelector) {
-        this._name = name;
-        this._link = link;
+    constructor ({data, handleCardClick}, templateSelector) {
+        this._name = data.name;
+        this._link = data.link;
+        this.handleCardClick = handleCardClick;
         this._templateSelector = templateSelector;
     }
 
@@ -17,13 +17,12 @@ export class Card {
     _toggleCardLike() {
         this._cardLikeButton.classList.toggle('card__like-button_active');
     }
-    _handlePicPopup() {
-        
-        popupPic.src = this._link;
-        popupPicCaption.textContent = this._name;
-        popupPic.alt = this._name;
-        openWindow(popupPicWindow);
-    }
+    
+    handleCardClick = (data) => {
+            this.handleCardClick(data);
+        }
+    
+
     getCard() {
         this._newCard = document.querySelector(this._templateSelector).content.cloneNode(true).querySelector('.card');
         this._cardLikeButton = this._newCard.querySelector('.card__like-button');
@@ -40,8 +39,8 @@ export class Card {
         this._cardLikeButton.addEventListener('click', () => {
             this._toggleCardLike();
         });
-        this._cardImage.addEventListener('click', () => {
-            this._handlePicPopup();
+        this._cardImage.addEventListener('click', (data) => {
+            this.handleCardClick(data);
             
         });
 

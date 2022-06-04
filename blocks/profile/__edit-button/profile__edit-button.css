@@ -4,7 +4,7 @@
     position: absolute;
     top: 15px;
     right: -44px;
-    background-image: url(../../../images/Vectoredit.svg);
+    background-image: url(../../../src/images/Vectoredit.svg);
     object-fit: cover;
     background-position: center;
     background-color: transparent;
