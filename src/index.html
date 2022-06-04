@@ -16,7 +16,7 @@
         <main class="main">
             <section class="profile">
                 <div class="profile__info">
-                    <img class="profile__avatar" src= <%=require("../src/images/imageavatar.png")%> alt="Фото пользователя (фото Жак-Ив Кусто)">
+                    <img class="profile__avatar" src= "<%=require('../src/images/imageavatar.png')%>" alt="Фото пользователя (фото Жак-Ив Кусто)">
                     <div class="profile__name-box">
                         <h1 class="profile__name">Жак-Ив Кусто</h1>
                         <p class="profile__subname">Исследователь океана</p>
@@ -51,11 +51,11 @@
                 <button class="popup__close-button" type="button"></button>
                 <h3 class="popup__heading">Редактировать профиль</h3>
                 <label class="popup__label">
-                <input class="popup__input popup__input_username" id="username-input" type="text" name="username" minlength="2" maxlength="40" required>
+                <input class="popup__input popup__input_username" id="username-input" type="text" name="user" minlength="2" maxlength="40" required>
                 <span class="popup__error" id="username-input-error"></span>
                 </label>
                 <label class="popup__label">
-                <input class="popup__input popup__input_job" id="job-input" type="text" name="job" minlength="2" maxlength="200" required>
+                <input class="popup__input popup__input_job" id="job-input" type="text" name="about" minlength="2" maxlength="200" required>
                 <span class="popup__error" id="job-input-error"></span>
                 </label>
                 <button class="popup__submit-button" type="submit">Сохранить</button>
@@ -66,7 +66,7 @@
                 <button class="popup__close-button popup__close-button_place_new-card" type="button"></button>
                 <h3 class="popup__heading">Новое место</h3>
                 <label class="popup__label">
-                <input class="popup__input popup__input_picture-name" id="picture-input" type="text" name="pic-name" placeholder="Название" minlength="2" maxlength="30" required>
+                <input class="popup__input popup__input_picture-name" id="picture-input" type="text" name="name" placeholder="Название" minlength="2" maxlength="30" required>
                 <span class="popup__error" id="picture-input-error"></span>
                 </label>
                 <label class="popup__label">

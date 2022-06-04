@@ -50,9 +50,7 @@ export class FormValidator {
         this._button = this._form.querySelector(this._config.buttonSelector);
     
         this._toggleSubmitButtonDisabled();
-        this._form.addEventListener('submit', (event) => {
-            this._handleFormSubmit(event)
-        });
+       
         this._setListenersInput();  
     }
 }

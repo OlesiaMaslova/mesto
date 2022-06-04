@@ -5,9 +5,8 @@ export class Card {
     _template;
     _newCard;
     constructor ({data, handleCardClick}, templateSelector) {
-        this._name = data.name;
-        this._link = data.link;
-        this.handleCardClick = handleCardClick;
+        this._data = data;
+        this._handleCardClick = handleCardClick;
         this._templateSelector = templateSelector;
     }
 
@@ -16,11 +15,7 @@ export class Card {
     }
     _toggleCardLike() {
         this._cardLikeButton.classList.toggle('card__like-button_active');
-    }
-    
-    handleCardClick = (data) => {
-            this.handleCardClick(data);
-        }
+    } 
     
 
     getCard() {
@@ -29,9 +24,9 @@ export class Card {
         this._cardImage = this._newCard.querySelector('.card__image');
         this._cardName = this._newCard.querySelector('.card__name');
         this._cardDeleteButton = this._newCard.querySelector('.card__delete-button');
-        this._cardImage.src = this._link;
-        this._cardImage.alt = this._name;
-        this._cardName.textContent = this._name;
+        this._cardImage.src = this._data.link;
+        this._cardImage.alt = this._data.name;
+        this._cardName.textContent = this._data.name;
 
         this._cardDeleteButton.addEventListener('click', () => {
             this._handleCardRemove();
@@ -39,10 +34,7 @@ export class Card {
         this._cardLikeButton.addEventListener('click', () => {
             this._toggleCardLike();
         });
-        this._cardImage.addEventListener('click', (data) => {
-            this.handleCardClick(data);
-            
-        });
+        this._cardImage.addEventListener('click', () => this._handleCardClick(this._data));
 
 
         return this._newCard;
