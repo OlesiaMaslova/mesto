@@ -2,7 +2,7 @@
     width: 22px;
     height: 19px;
     background-color: transparent;
-    background-image: url(../../../src/images/Vectorheart.svg);
+    background-image: url(../../../images/Vectorheart.svg);
     border: none;
     cursor: pointer;
     transition:opacity 1s ease;
