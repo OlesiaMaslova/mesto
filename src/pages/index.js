@@ -52,6 +52,7 @@ buttonEdit.addEventListener('click', () => {
 });
 
 buttonAdd.addEventListener('click', () => {
+    imageAddValidator.toggleSubmitButtonDisabled();
     picForm.openWindow();
     
 });

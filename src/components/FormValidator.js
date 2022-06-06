@@ -24,16 +24,16 @@ export class FormValidator {
         inputs.forEach((inputElement) => {
             inputElement.addEventListener('input', (event) => {
             this._handleInputValidation(inputElement);
-            this._toggleSubmitButtonDisabled();
+            this.toggleSubmitButtonDisabled();
             });
         });
     }
     _handleFormSubmit(event, button ) {
         event.preventDefault();
-        this._toggleSubmitButtonDisabled();
+        this.toggleSubmitButtonDisabled();
     
     }
-    _toggleSubmitButtonDisabled()  { 
+    toggleSubmitButtonDisabled()  { 
 
         if(this._form.checkValidity()) {
             this._button.classList.remove(`${this._config.buttonSelectorError}`);
@@ -49,7 +49,7 @@ export class FormValidator {
         
         this._button = this._form.querySelector(this._config.buttonSelector);
     
-        this._toggleSubmitButtonDisabled();
+        this.toggleSubmitButtonDisabled();
        
         this._setListenersInput();  
     }
