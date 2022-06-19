@@ -25,7 +25,7 @@ export class Card {
     }
 
     _checklike() {
-        let isLiked = this._data.likes.find(like => like._id === this._ownerId);
+        const isLiked = this._data.likes.find(like => like._id === this._ownerId);
             if(isLiked) {
                 this._cardLikeButton.classList.add('card__like-button_active');
                
@@ -35,7 +35,7 @@ export class Card {
 
     _setLikeAction() {
         
-        let isLiked = this._data.likes.find(like => like._id === this._ownerId);
+        const isLiked = this._data.likes.find(like => like._id === this._ownerId);
         
         if(isLiked) {
             this._handleCardDislike(this._data);
