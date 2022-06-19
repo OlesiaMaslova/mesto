@@ -5,8 +5,16 @@ export class Api {
         this._cohortId = cohortId;
     }
 
+    _checkResponse(res) {
+        if(res.ok) {
+            return res.json();
+        } else {
+            return Promise.reject(`Ошибка: ${res.status}`);
+        }
+    }
+
     setInitialState() {
-       return Promise.all([this.getInitialCards(), this.getUserInfo()]);
+       return Promise.all([this.getUserInfo(), this.getInitialCards()]);
     }
 
     getInitialCards() {
@@ -16,13 +24,7 @@ export class Api {
                 'Content-Type': 'application/json'
             }
         })
-        .then((res) => {
-            if(res.ok) {
-                return res.json();
-            } else {
-                return Promise.reject(`Ошибка: ${res.status}`);
-            }
-        });
+        .then(this._checkResponse);
     }
     getUserInfo() {
         return fetch(`${this._url}/${this._cohortId}/users/me`, {
@@ -31,13 +33,7 @@ export class Api {
                 'Content-Type': 'application/json'
             }
         })
-        .then((res) => {
-            if(res.ok) {
-                return res.json();
-            } else {
-                return Promise.reject(`Ошибка: ${res.status}`);
-            }
-        })
+        .then(this._checkResponse);
     }
     updateUserInfo(data) {
         return fetch(`${this._url}/${this._cohortId}/users/me`, {
@@ -51,13 +47,7 @@ export class Api {
                 about: data.about
               })
         })
-        .then((res) => {
-            if(res.ok) {
-                return res.json();
-            } else {
-                return Promise.reject(`Ошибка: ${res.status}`);
-            }
-        }) 
+        .then(this._checkResponse);
     }
     updateUserAvatar(data) {
         return fetch(`${this._url}/${this._cohortId}/users/me/avatar`, {
@@ -70,13 +60,7 @@ export class Api {
                 avatar:data.avatar
               })
         })
-        .then((res) => {
-            if(res.ok) {
-                return res.json();
-            } else {
-                return Promise.reject(`Ошибка: ${res.status}`);
-            }
-        }) 
+        .then(this._checkResponse);
     }
     
 
@@ -92,13 +76,7 @@ export class Api {
                 link: data.link
               })
         }) 
-        .then((res) => {
-            if(res.ok) {
-                return res.json();
-            } else {
-                return Promise.reject(`Ошибка: ${res.status}`);
-            }
-        }) 
+        .then(this._checkResponse);
     }  
 
     deleteCard(data) {
@@ -109,13 +87,7 @@ export class Api {
                 'Content-Type': 'application/json'
             }
         }) 
-        .then((res) => {
-            if(res.ok) {
-                return res.json();
-            } else {
-                return Promise.reject(`Ошибка: ${res.status}`);
-            }
-        }) 
+        .then(this._checkResponse);
     }
 
     addLike(data) {
@@ -126,13 +98,7 @@ export class Api {
                 'Content-Type': 'application/json'
             }
         }) 
-        .then((res) => {
-            if(res.ok) {
-                return res.json();
-            } else {
-                return Promise.reject(`Ошибка: ${res.status}`);
-            }
-        }) 
+        .then(this._checkResponse);
     }
     removeLike(data) {
         return fetch(`${this._url}/${this._cohortId}/cards/${data._id}/likes`, {
@@ -142,12 +108,6 @@ export class Api {
                 'Content-Type': 'application/json'
             }
         }) 
-        .then((res) => {
-            if(res.ok) {
-                return res.json();
-            } else {
-                return Promise.reject(`Ошибка: ${res.status}`);
-            }
-        }) 
+        .then(this._checkResponse);
     }
 }

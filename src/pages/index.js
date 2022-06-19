@@ -11,17 +11,20 @@ import {UserInfo} from '../components/UserInfo.js';
 import {Api} from '../components/Api.js'
 import {initialCards, buttonEdit, buttonAdd, avatarEdit, userAvatar, formAvatarElement, formPicElement, formUserElement, jobInput, nameInput, config, openWindow, avatarEditWindow} from '../utils.js';
 
+let myId;
 
 const api = new Api('https://mesto.nomoreparties.co/v1', 'cohort-43', '4772447b-886a-4135-9b3c-8735b1b9c3a9');
 
 api.setInitialState()
 .then((data) => {
-    const [ cardData, userData ] = data;
-    cardData.forEach((item) => {
-        cardList.addItem(createCard(item));        
-    });
+    const [ userData, cardData ] = data;
     userInfo.setUserInfo(userData);
-    userInfo.setUserAvatar(userData); 
+    myId = userData._id;
+    
+    cardData.reverse().forEach((item) => {
+        cardList.addItem(createCard(item, myId)); 
+        
+})
 })
 .catch((err) => {
     console.log(`Ошибка: ${err}`);
@@ -39,7 +42,8 @@ const userForm = new PopupWithForm( (data) => {
   userForm.setSubmitLoader(true);
     api.updateUserInfo(data)
     .then((data) => {
-    userInfo.setUserInfo(data);    
+    userInfo.setUserInfo(data);   
+    userForm.closeWindow(); 
     })
     .catch((err) => {
         console.log(`Ошибка: ${err}`);
@@ -47,7 +51,6 @@ const userForm = new PopupWithForm( (data) => {
     .finally(() => {
         userForm.setSubmitLoader(false);
     })
-    userForm.closeWindow();
 }, '.popup_type_edit');
 
 
@@ -55,7 +58,9 @@ const picForm = new PopupWithForm((data) => {
     picForm.setSubmitLoader(true);
     api.postNewCard(data)
     .then((data) => {
-        cardList.addItem(createCard(data)); 
+        cardList.addItem(createCard(data, myId)); 
+        picForm.closeWindow();
+        
     })
     .catch((err) => {
         console.log(`Ошибка: ${err}`);
@@ -63,14 +68,14 @@ const picForm = new PopupWithForm((data) => {
     .finally(() => {
         picForm.setSubmitLoader(false);
     })
-picForm.closeWindow();
 }, '.popup_type_new-card');
 
 const userAvatarForm = new PopupWithForm((data) => {
     userAvatarForm.setSubmitLoader(true);
     api.updateUserAvatar(data)
     .then((data) => {
-        setUserAvatar(data);
+        userInfo.setUserInfo(data);
+        userAvatarForm.closeWindow();
     })
     .catch((err) => {
         console.log(`Ошибка: ${err}`);
@@ -78,58 +83,62 @@ const userAvatarForm = new PopupWithForm((data) => {
     .finally(() => {
         userAvatarForm.setSubmitLoader(false);
     })
-userAvatarForm.closeWindow();
 }, '.popup_type_new-avatar')
 
 
 
-const createCard = (data) => {
-    const card = new Card({data, handleCardClick: () => {
+const createCard = (data, myId) => {
+    const card = new Card({data, myId, handleCardClick: () => {
         picPreview.openWindow(data);
        },
+    handleCardRemove: () => {
+        deleteConfirmation.openWindow();
+        deleteConfirmation.setSubmitAction(() => {
+          api.deleteCard(data)
+          .then(() => {
+              deleteConfirmation.closeWindow();
+          })
+          .then(() => {
+              cardElement.remove();
+          })
+          .catch((err) => {
+              console.log(`Ошибка: ${err}`);
+          })
+        }) 
+         
+      
+         },
     handleCardLike: (data) => {
    
     api.addLike(data)
       .then((data) => {
         card.setLikesState(data);
+       card.addLikeButtonState();
+       
+        
     })
      .catch((err) => {
         console.log(`Ошибка: ${err}`);
     })
-
+    },
+    handleCardDislike: (data) => {
     api.removeLike(data)
     .then((data) => {
+        
         card.setLikesState(data);
+        card.removeLikeButtonState();
     })
      .catch((err) => {
         console.log(`Ошибка: ${err}`);
     })
        },
-    handleCardRemove: () => {
-      deleteConfirmation.openWindow();
-      deleteConfirmation.setSubmitAction(() => {
-        api.deleteCard(data)
-        .then(() => {
-            deleteConfirmation.closeWindow();
-        })
-        .then(() => {
-            cardElement.remove();
-        })
-        .catch((err) => {
-            console.log(`Ошибка: ${err}`);
-        })
-      }) 
-       
-    
-       }}, '.template__card');
+}, '.template__card');
        const cardElement = card.getCard();
       
        return cardElement;
 };
 
-const setUserAvatar = (data) => {
-    userAvatar.src = data.avatar;
-}
+
 
 
 buttonEdit.addEventListener('click', () => {
@@ -146,6 +155,7 @@ buttonAdd.addEventListener('click', () => {
 });
 
 avatarEdit.addEventListener('click', () => {
+    avatarValidator.toggleSubmitButtonDisabled();
     userAvatarForm.openWindow();
 })
 
